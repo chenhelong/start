@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p><button onclick="geoFindMe()">Show my location</button> 
+       <button onclick="zoomAdd()"> + </button> 
+       <button onclick="zoomcribal()"> - </button></p>
+    <div id="out"></div>
+
+</body>
+<script>
+    var j = 1;
+function geoFindMe() {
+    var output = document.getElementById("out");
+  
+    if (!navigator.geolocation){
+      output.innerHTML = "<p>您的浏览器不支持地理位置</p>";
+      return;
+    }
+  
+    function success(position) {
+      var latitude  = position.coords.latitude;
+      var longitude = position.coords.longitude;
+        
+      output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+  
+      var img = new Image();
+      img.src = "http://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom="+ j +"&size=300x300&sensor=false";
+  
+      output.appendChild(img);
+    };
+  
+    function error() {
+      output.innerHTML = "无法获取您的位置";
+    };
+  
+    output.innerHTML = "<p>Locating…</p>";
+  
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+
+    function zoomAdd () {
+       j++;
+       geoFindMe();
+    }
+    function zoomcribal () {
+       j--;
+       geoFindMe();
+    }
+</script>
+</html>
